@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 import os
 from dotenv import load_dotenv
+from mangum import Mangum
 
 load_dotenv()
 
@@ -298,6 +299,9 @@ async def listar_idiomas(session: AsyncSession = Depends(get_session)):
     result = await session.execute(select(Idioma))
     idiomas = result.scalars().all()
     return [idioma.nome for idioma in idiomas]
+
+# Adiciona o handler do Mangum para o Netlify Functions
+handler = Mangum(app)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True) 

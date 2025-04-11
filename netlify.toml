@@ -1,11 +1,14 @@
 [build]
-  command = "npm run build"
-  publish = ".next"
+  command = "pip install -r requirements.txt"
+  publish = "."
 
 [build.environment]
-  NEXT_PUBLIC_API_URL = "https://seu-backend-url.herokuapp.com" # Você precisará atualizar esta URL depois
+  PYTHON_VERSION = "3.9"
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200 
+  to = "/.netlify/functions/main"
+  status = 200
+
+[functions]
+  included_files = ["main.py", "models.py", "requirements.txt"] 
