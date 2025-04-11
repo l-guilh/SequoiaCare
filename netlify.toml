@@ -13,12 +13,11 @@
   force = true
 
 [functions]
-  directory = "backend"
+  directory = "backend/netlify/functions"
   node_bundler = "esbuild"
 
 [dev]
   framework = "#custom"
   command = "python backend/main.py"
   targetPort = 8000
-  port = 8888
-  publish = "backend" 
+  port = 8888 
