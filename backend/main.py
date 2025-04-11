@@ -23,7 +23,8 @@ load_dotenv()
 app = FastAPI(
     title="SequoiaCare API",
     description="API para gerenciamento de provedores de saúde e pacientes",
-    version="1.0.0"
+    version="1.0.0",
+    root_path="/.netlify/functions/main"
 )
 
 # Configuração do CORS
@@ -301,13 +302,13 @@ async def listar_idiomas(session: AsyncSession = Depends(get_session)):
     idiomas = result.scalars().all()
     return [idioma.nome for idioma in idiomas]
 
-# Adiciona o handler do Mangum para o Netlify Functions
-handler = Mangum(app)
+# Handler para o Netlify Functions
+handler = Mangum(app, lifespan="off")
 
-# Adiciona um endpoint de teste
+# Endpoint de teste
 @app.get("/")
 async def root():
-    return JSONResponse(content={"message": "API funcionando!"})
+    return {"message": "API funcionando!"}
 
 # Adiciona um endpoint para o favicon
 @app.get("/favicon.ico")
@@ -315,4 +316,4 @@ async def favicon():
     return JSONResponse(content={}, status_code=404)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True) 
+    uvicorn.run(app, host="0.0.0.0", port=8000) 

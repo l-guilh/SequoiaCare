@@ -1,16 +1,24 @@
 [build]
-  command = "pip install -r backend/requirements.txt"
+  command = "pip install -r backend/requirements-dev.txt"
   publish = "backend"
-  functions = "backend"
 
 [build.environment]
   PYTHON_VERSION = "3.9"
+  PIP_VERSION = "23.0.1"
 
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/main"
   status = 200
+  force = true
 
 [functions]
-  external_node_modules = [""]
-  node_bundler = "esbuild" 
+  directory = "backend"
+  node_bundler = "esbuild"
+
+[dev]
+  framework = "#custom"
+  command = "python backend/main.py"
+  targetPort = 8000
+  port = 8888
+  publish = "backend" 
