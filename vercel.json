@@ -2,8 +2,12 @@
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/.next",
   "framework": "nextjs",
+  "installCommand": "cd frontend && npm install",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/api/:path*",
+      "destination": "https://resplendent-concha-d0dda8.netlify.app/.netlify/functions/main/:path*"
+    }
   ],
   "env": {
     "NEXT_PUBLIC_API_URL": "https://resplendent-concha-d0dda8.netlify.app/.netlify/functions/main"
