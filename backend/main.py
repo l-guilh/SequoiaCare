@@ -16,6 +16,7 @@ from jose import JWTError, jwt
 import os
 from dotenv import load_dotenv
 from mangum import Mangum
+from fastapi.responses import JSONResponse
 
 load_dotenv()
 
@@ -302,6 +303,16 @@ async def listar_idiomas(session: AsyncSession = Depends(get_session)):
 
 # Adiciona o handler do Mangum para o Netlify Functions
 handler = Mangum(app)
+
+# Adiciona um endpoint de teste
+@app.get("/")
+async def root():
+    return JSONResponse(content={"message": "API funcionando!"})
+
+# Adiciona um endpoint para o favicon
+@app.get("/favicon.ico")
+async def favicon():
+    return JSONResponse(content={}, status_code=404)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True) 
